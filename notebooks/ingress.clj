@@ -1,13 +1,13 @@
 
-;; # Hello, *Clerk* 👋
+;; # An incursion into the Clojure Clerk computational environment
+;; cloned from notebooks/introduction.clj @ https://github.com/uprootiny/clerk-demo/blob/e07bca421158f37a61353928eb59e3a845ac9392/notebooks/introduction.clj
 ^{:nextjournal.clerk/visibility {:code :hide}}
 
 ;; *•*
-(ns introduction
+(ns ingress
   (:require [nextjournal.clerk :as clerk]
             [meta-csv.core :as csv]
-            [clj-http.client :as client]
-            )
+            [clj-http.client :as client])
   (:import (java.net.http HttpRequest HttpClient HttpResponse$BodyHandlers)
            (java.net URI)))
 
@@ -19,7 +19,6 @@
 
 ;; Github 
 ;;;;
-(slurp "github.")
 (defn get-repos [username token]
   (let [url (str "https://api.github.com/users/" username "/repos")
         headers {"Authorization" (str "token " token)
