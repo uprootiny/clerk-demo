@@ -18,7 +18,7 @@
 ;; Rust
 
 ;; Github 
-;;;;
+;;;; 
 (defn get-repos [username token]
   (let [url (str "https://api.github.com/users/" username "/repos")
         headers {"Authorization" (str "token " token)
@@ -27,6 +27,10 @@
         :body
         (json/read-str))))
 
+
+
+(get-repos "uprootiny" "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")
+;; Access Token
 ;;;; global search hints
 
 
