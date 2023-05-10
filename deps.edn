@@ -5,6 +5,11 @@
         ;; keep 1.10 until `kixi/stats` and `sicmutils` fix warnings
         org.clojure/clojure {:mvn/version "1.10.3"}
 
+
+        clj-http/clj-http {:mvn/version "3.12.3"}
+
+
+
         ;; input various external data formats
         com.github.seancorfield/next.jdbc {:mvn/version "1.2.659"}
         meta-csv/meta-csv {:mvn/version "0.1.0"}
