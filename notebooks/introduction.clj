@@ -1,5 +1,8 @@
-;; # Hello, Clerk 👋
+
+;; # Hello, *Clerk* 👋
 ^{:nextjournal.clerk/visibility {:code :hide}}
+
+;; *•*
 (ns introduction
   (:require [nextjournal.clerk :as clerk]
             [meta-csv.core :as csv])
