@@ -108,8 +108,8 @@
 
 (v/vl {:width 650 :height 650
        :config {:projection {:type "mercator" :center [10.4515 51.1657]}}
-       :layer [{:data {:url "https://raw.githubusercontent.com/deldersveld/topojson/master/countries/germany/germany-regions.json"
-                       :format {:type "topojson" :feature "DEU_adm2"}}
+       :layer [{:data {:url "https://raw.githubusercontent.com/AliceWi/TopoJSON-Germany/master/germany.json"
+                       :format {:type "topojson" :feature "states"}}
                 :mark {:type "geoshape" :fill "lightgray" :stroke "white"}}
                {:encoding {:longitude {:field "longitude" :type "quantitative"}
                            :latitude {:field "latitude" :type "quantitative"}}
@@ -119,22 +119,31 @@
 ;; Sometimes the data needs a more customized view. Happily, we can
 ;; write arbitrary hiccup to be rendered in Clerk. We'll use this
 ;; query to fetch a list of different species of _Apodiformes_ (swifts
-;; and hummingbirds), returning a name, image, and map of home range
-;; for each one.
+;; and hummingbirds), returning the name in English and Japanese, an
+;; image of the bird itself, and map of that bird's home range for
+;; each one.
 
-(->> (query `{:select-distinct [?item ?itemLabel ?pic ?range]
+(->> (query `{:select-distinct [?englishName ?japaneseName ?pic ?range]
               :where [[?item (* ~(wdt :parent-taxon)) ~(entity "Apodiformes")]
                       [?item ~(wdt :taxon-rank) ~(entity "species")]
                       [?item :rdfs/label ?englishName]
+                      [?item :rdfs/label ?japaneseName]
                       [?item ~(wdt :image) ?pic]
                       [?item ~(wdt :taxon-range-map-image) ?range]
-                      [:filter (= (lang ?englishName) "en")]]
-              :limit 11})
-     (mapv #(vector :tr
-                    [:td.w-32 (:itemLabel %)]
+                      [:filter (= (lang ?englishName) "en")]
+                      [:filter (= (lang ?japaneseName) "ja")]]
+              :limit 9})
+     (mapv  #(vector :tr
+                    [:td.w-32 (:englishName %)]
+                    [:td.w-32 (:japaneseName %)]
                     [:td [:img.w-80 {:src (:pic %)}]]
                     [:td [:img.w-80 {:src (:range %)}]]))
-     (into [:table])
+     (into [:table
+            [:tr
+             [:th "English"]
+             [:th "Japanese"]
+             [:th "Photo"]
+             [:th "Range"]]])
      clerk/html)
 
 ;; ## Network diagrams
